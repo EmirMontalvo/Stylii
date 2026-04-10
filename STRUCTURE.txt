@@ -1,0 +1,22 @@
+D:/Proyecto Barberia/
+│
+├── docs/                               # 📄 Documentación y Análisis
+│   ├── README.md                       # Guía de inicio rápido
+│   ├── DOCUMENTACION_TECNICA.md        # Arquitectura y Stack
+│   └── PROBLEMATICA_OBJETIVO_SOLUCION.md # Justificación del proyecto
+│
+├── src/                                # 💻 Código Fuente (Frontend)
+│   ├── app/
+│   │   ├── pages/                      # Landing, Auth, Dashboard, Chatbot
+│   │   ├── services/                   # Supabase, Stripe, IA
+│   │   └── models/                     # Interfaces TypeScript
+│   └── assets/                         # Imágenes y estilos globales
+│
+├── supabase/                           # ☁️ Backend (Base de Datos / Funciones)
+│   ├── functions/                      # Edge Functions (Deno)
+│   │   ├── ai-chat/
+│   │   ├── stripe-webhook/
+│   │   └── create-checkout/
+│   └── migrations/                     # Scripts SQL para el esquema
+│
+└── TODO.md                             # ✅ Lista de tareas para arrancar

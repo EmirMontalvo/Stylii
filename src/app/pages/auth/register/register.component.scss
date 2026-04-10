@@ -1,0 +1,100 @@
+@import '../login/login.component.scss';
+
+.register-container {
+  width: 100%;
+  max-width: 750px; /* Tarjeta más ancha */
+  padding: 40px 60px; /* Más padding en los costados */
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+  }
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  
+  h3 {
+    font-size: 1rem;
+    color: var(--primary-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 5px;
+  }
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+
+  .btn-premium {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    align-self: center; /* Centrado correcto en flex-direction: column */
+    min-width: 300px; /* Para que el botón no quede demasiado pequeño */
+  }
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 100%;
+    padding-right: 40px; // Para hacer espacio al icono
+  }
+}
+
+.toggle-pwd-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: color var(--transition-smooth);
+
+  &:hover {
+    color: var(--primary-gold);
+  }
+}
+
+.register-header {
+  text-align: center;
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+    @media (max-width: 600px) {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+}

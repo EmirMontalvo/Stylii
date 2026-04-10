@@ -1,0 +1,41 @@
+<div class="dashboard-wrapper">
+  <!-- Sidebar Glass -->
+  <aside class="sidebar glass-card" [class.collapsed]="!isSidebarOpen()">
+    <div class="sidebar-header">
+      <h2 class="brand-text">STYLII</h2>
+    </div>
+
+    <nav class="sidebar-nav">
+      @for (item of menuItems; track item.label) {
+        <a [routerLink]="item.route" routerLinkActive="active" class="nav-item">
+          <lucide-icon [img]="item.icon" size="20" class="nav-icon"></lucide-icon>
+          <span class="label">{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-logout" (click)="logout()">
+        <lucide-icon [img]="LogOut" size="20"></lucide-icon>
+        <span class="label">Cerrar Sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="top-bar glass-card">
+      <button (click)="toggleSidebar()" class="menu-toggle">
+        <lucide-icon [img]="Menu" size="24"></lucide-icon>
+      </button>
+      <div class="user-profile">
+        <span class="business-name">{{ businessName() }}</span>
+        <div class="avatar"></div>
+      </div>
+    </header>
+
+    <section class="content-area">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>
