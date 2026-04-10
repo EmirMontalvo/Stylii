@@ -21,3 +21,12 @@
 - Lógica automatizada en el ciclo de registro de Supabase Auth, conectando secuencialmente la creación cruzada de un Tenant: Inserción de un nuevo `negocio`, creación de sucursal base `Sucursal Principal`, vinculación del Dueño dentro de `usuarios_perfiles` y redirección automática.
 - Refinamiento de Interfaz Gráfica (GUI) en formularios de registro: ampliación de tarjetas contenedor (containers), deshabilitación forzosa del autocompletado en campos del DOM (`autocomplete=off`), agregado del control de visibilidad de contraseñas usando integraciones de **Lucide Angular**.
 - Generación de armazón (layout) del panel de control interno, inyectando navegación izquierda flexible, perfiles de negocio dinámicos haciendo fetching relacional mediante el id del token a `usuarios_perfiles`, logrando mostrar "Nombre del negocio" real. Preparación del cierre de sesion conectándolo a `supabase.auth.signOut()`.
+
+---
+
+**NOTA PARA EL FUTURO: PRÓXIMOS OBJETIVOS**
+¿Cuál quieres que sea nuestro siguiente objetivo?
+Aquí tienes las 2 opciones más lógicas para donde estamos parados:
+
+1. 🛡️ **Seguridad (RLS - Row Level Security)**: Ahorita todas las tablas están temporalmente sin reglas de seguridad. El siguiente paso crucial como SaaS es inyectarle las políticas a Supabase para garantizar matemáticamente que un negocio **JAMÁS** pueda leer ni modificar datos de otro negocio, atando cada consulta de Angular al `negocio_id` en el que inició sesión tu usuario.
+2. 💻 **Vistas de Datos (Sucursales/Empleados)**: Dejar la seguridad suspendida un momento más y saltar a construir la pantalla en el Dashboard que permita administrar de verdad esas franquicias y empleados. y tambien poder agregar empleados.
