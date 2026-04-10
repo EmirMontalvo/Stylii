@@ -29,4 +29,4 @@
 Aquí tienes las 2 opciones más lógicas para donde estamos parados:
 
 1. 🛡️ **Seguridad (RLS - Row Level Security)**: Ahorita todas las tablas están temporalmente sin reglas de seguridad. El siguiente paso crucial como SaaS es inyectarle las políticas a Supabase para garantizar matemáticamente que un negocio **JAMÁS** pueda leer ni modificar datos de otro negocio, atando cada consulta de Angular al `negocio_id` en el que inició sesión tu usuario.
-2. 💻 **Vistas de Datos (Sucursales/Empleados)**: Dejar la seguridad suspendida un momento más y saltar a construir la pantalla en el Dashboard que permita administrar de verdad esas franquicias y empleados. y tambien poder agregar empleados.
+2. 💻 **Vistas de Datos (Sucursales/Empleados)**: Dejar la seguridad suspendida un momento más y saltar a construir la pantalla en el Dashboard que permita administrar de verdad esas franquicias y empleados. y tambien poder agregar empleados y sucursales.
