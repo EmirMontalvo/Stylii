@@ -1,0 +1,140 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h1 class="premium-title">Gestión de <span class="brand-text">Citas</span></h1>
+      <p class="subtitle">Administra todas las reservaciones de tu barbería</p>
+    </div>
+    <button class="btn-premium" (click)="openModal()">+ Nueva Cita</button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-bar glass-card">
+    <button class="filter-btn" [class.active]="filterEstado() === 'todos'" (click)="filterEstado.set('todos')">Todas</button>
+    <button class="filter-btn" [class.active]="filterEstado() === 'pendiente'" (click)="filterEstado.set('pendiente')">Pendientes</button>
+    <button class="filter-btn" [class.active]="filterEstado() === 'confirmada'" (click)="filterEstado.set('confirmada')">Confirmadas</button>
+    <button class="filter-btn" [class.active]="filterEstado() === 'completada'" (click)="filterEstado.set('completada')">Completadas</button>
+    <button class="filter-btn" [class.active]="filterEstado() === 'cancelada'" (click)="filterEstado.set('cancelada')">Canceladas</button>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando citas...</p>
+    </div>
+  }
+
+  <!-- Lista de citas -->
+  @if (!loading()) {
+    @if (filteredCitas.length === 0) {
+      <div class="empty-state glass-card">
+        <span class="empty-icon">📅</span>
+        <h3>No hay citas</h3>
+        <p>Crea tu primera cita usando el botón de arriba</p>
+      </div>
+    } @else {
+      <div class="citas-grid">
+        @for (cita of filteredCitas; track cita.id) {
+          <div class="glass-card cita-card">
+            <div class="cita-header">
+              <span class="badge" [ngClass]="getEstadoClass(cita.estado)">{{ cita.estado }}</span>
+              <span class="cita-type">{{ cita.tipo_reserva }}</span>
+            </div>
+            <div class="cita-body">
+              <h4>{{ cita.cliente_nombre }}</h4>
+              <div class="cita-details">
+                <p><span class="detail-label">📅</span> {{ formatDate(cita.fecha_hora_inicio) }}</p>
+                <p><span class="detail-label">💈</span> {{ cita.empleado?.nombre || 'Sin asignar' }}</p>
+                <p><span class="detail-label">📞</span> {{ cita.cliente_telefono || 'N/A' }}</p>
+                <p><span class="detail-label">💰</span> ${{ cita.monto_total || 0 }}</p>
+              </div>
+              @if (cita.notas) {
+                <p class="cita-notas">{{ cita.notas }}</p>
+              }
+            </div>
+            <div class="cita-actions">
+              @if (cita.estado === 'pendiente') {
+                <button class="btn-sm btn-confirm" (click)="updateEstado(cita, 'confirmada')">Confirmar</button>
+              }
+              @if (cita.estado === 'confirmada') {
+                <button class="btn-sm btn-complete" (click)="updateEstado(cita, 'completada')">Completar</button>
+              }
+              @if (cita.estado !== 'cancelada' && cita.estado !== 'completada') {
+                <button class="btn-sm btn-cancel" (click)="updateEstado(cita, 'cancelada')">Cancelar</button>
+              }
+              <button class="btn-sm btn-delete" (click)="deleteCita(cita)">🗑️</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>
+
+<!-- Modal Nueva Cita -->
+@if (showModal()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal glass-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Nueva Cita</h2>
+        <button class="modal-close" (click)="closeModal()">✕</button>
+      </div>
+      <form (submit)="saveCita()" class="modal-form">
+        <div class="form-row">
+          <div class="input-group">
+            <label>Nombre del Cliente *</label>
+            <input type="text" [(ngModel)]="form.cliente_nombre" name="nombre" required placeholder="Nombre completo">
+          </div>
+          <div class="input-group">
+            <label>Teléfono</label>
+            <input type="tel" [(ngModel)]="form.cliente_telefono" name="telefono" placeholder="555-123-4567">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label>Email</label>
+            <input type="email" [(ngModel)]="form.cliente_email" name="email" placeholder="cliente@email.com">
+          </div>
+          <div class="input-group">
+            <label>Fecha y Hora *</label>
+            <input type="datetime-local" [(ngModel)]="form.fecha_hora_inicio" name="fecha" required>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Barbero</label>
+          <select [(ngModel)]="form.empleado_id" name="empleado">
+            <option [ngValue]="undefined">Sin asignar</option>
+            @for (emp of empleados(); track emp.id) {
+              <option [ngValue]="emp.id">{{ emp.nombre }}</option>
+            }
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Servicios</label>
+          <div class="servicios-checkboxes">
+            @for (srv of servicios(); track srv.id) {
+              <label class="checkbox-label" [class.checked]="selectedServicios.includes(srv.id)">
+                <input type="checkbox" [checked]="selectedServicios.includes(srv.id)" (change)="toggleServicio(srv.id)">
+                {{ srv.nombre }} - ${{ srv.precio_base }} ({{ srv.duracion_minutos }}min)
+              </label>
+            }
+            @if (servicios().length === 0) {
+              <p class="hint">No hay servicios. Créalos primero en la sección de Servicios.</p>
+            }
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Notas</label>
+          <textarea [(ngModel)]="form.notas" name="notas" rows="2" placeholder="Notas adicionales..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <span class="total-display">Total: <strong>${{ form.monto_total }}</strong></span>
+          <div class="footer-btns">
+            <button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button>
+            <button type="submit" class="btn-premium">Guardar Cita</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+}

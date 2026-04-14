@@ -1,0 +1,80 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h1 class="premium-title">Tus <span class="brand-text">Servicios</span></h1>
+      <p class="subtitle">{{ servicios().length }} servicios configurados</p>
+    </div>
+    <button class="btn-premium" (click)="openModal()">+ Nuevo Servicio</button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando servicios...</p>
+    </div>
+  }
+
+  @if (!loading()) {
+    @if (servicios().length === 0) {
+      <div class="empty-state glass-card">
+        <span class="empty-icon">✂️</span>
+        <h3>Sin servicios</h3>
+        <p>Agrega los servicios que ofrece tu barbería</p>
+      </div>
+    } @else {
+      <div class="items-grid">
+        @for (srv of servicios(); track srv.id) {
+          <div class="glass-card service-card">
+            <div class="service-icon">✂️</div>
+            <div class="service-info">
+              <h4>{{ srv.nombre }}</h4>
+              <div class="service-meta">
+                <span class="price">${{ srv.precio_base }}</span>
+                <span class="duration">⏱ {{ formatDuration(srv.duracion_minutos) }}</span>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="btn-sm btn-confirm" (click)="openModal(srv)">Editar</button>
+              <button class="btn-sm btn-delete" (click)="delete(srv)">🗑️</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>
+
+<!-- Modal -->
+@if (showModal()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal glass-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ editingId() ? 'Editar Servicio' : 'Nuevo Servicio' }}</h2>
+        <button class="modal-close" (click)="closeModal()">✕</button>
+      </div>
+      <form (submit)="save()" class="modal-form">
+        <div class="input-group">
+          <label>Nombre del Servicio *</label>
+          <input type="text" [(ngModel)]="form.nombre" name="nombre" required placeholder="Ej. Corte Clásico">
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label>Precio (MXN) *</label>
+            <input type="number" [(ngModel)]="form.precio_base" name="precio" required min="0" step="10" placeholder="150">
+          </div>
+          <div class="input-group">
+            <label>Duración (minutos) *</label>
+            <input type="number" [(ngModel)]="form.duracion_minutos" name="duracion" required min="5" step="5" placeholder="30">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div></div>
+          <div class="footer-btns">
+            <button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button>
+            <button type="submit" class="btn-premium">{{ editingId() ? 'Guardar Cambios' : 'Agregar Servicio' }}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+}

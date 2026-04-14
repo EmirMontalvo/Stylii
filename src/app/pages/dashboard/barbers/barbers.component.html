@@ -1,0 +1,88 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h1 class="premium-title">Tus <span class="brand-text">Barberos</span></h1>
+      <p class="subtitle">{{ activeCount }} activos de {{ empleados().length }} en total</p>
+    </div>
+    <button class="btn-premium" (click)="openModal()">+ Nuevo Barbero</button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando barberos...</p>
+    </div>
+  }
+
+  @if (!loading()) {
+    @if (empleados().length === 0) {
+      <div class="empty-state glass-card">
+        <span class="empty-icon">💈</span>
+        <h3>Sin barberos registrados</h3>
+        <p>Agrega a tu equipo para empezar a gestionar citas</p>
+      </div>
+    } @else {
+      <div class="items-grid">
+        @for (emp of empleados(); track emp.id) {
+          <div class="glass-card item-card" [class.inactive]="!emp.activo">
+            <div class="item-avatar">
+              <div class="avatar-circle">✂️</div>
+              <span class="status-dot" [class.active]="emp.activo" [class.off]="!emp.activo"></span>
+            </div>
+            <div class="item-info">
+              <h4>{{ emp.nombre }}</h4>
+              <p class="speciality">{{ emp.especialidad || 'Sin especialidad' }}</p>
+              <span class="badge" [ngClass]="emp.activo ? 'badge-success' : 'badge-danger'">
+                {{ emp.activo ? 'Activo' : 'Inactivo' }}
+              </span>
+            </div>
+            <div class="item-actions">
+              <button class="btn-sm btn-confirm" (click)="openModal(emp)">Editar</button>
+              <button class="btn-sm" [ngClass]="emp.activo ? 'btn-cancel' : 'btn-complete'" (click)="toggleActivo(emp)">
+                {{ emp.activo ? 'Desactivar' : 'Activar' }}
+              </button>
+              <button class="btn-sm btn-delete" (click)="delete(emp)">🗑️</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>
+
+<!-- Modal -->
+@if (showModal()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal glass-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ editingId() ? 'Editar Barbero' : 'Nuevo Barbero' }}</h2>
+        <button class="modal-close" (click)="closeModal()">✕</button>
+      </div>
+      <form (submit)="save()" class="modal-form">
+        <div class="input-group">
+          <label>Nombre Completo *</label>
+          <input type="text" [(ngModel)]="form.nombre" name="nombre" required placeholder="Ej. Carlos García">
+        </div>
+        <div class="input-group">
+          <label>Especialidad</label>
+          <input type="text" [(ngModel)]="form.especialidad" name="especialidad" placeholder="Ej. Cortes clásicos, Degradados, Barba">
+        </div>
+        @if (editingId()) {
+          <div class="input-group">
+            <label class="checkbox-label">
+              <input type="checkbox" [(ngModel)]="form.activo" name="activo">
+              Barbero activo
+            </label>
+          </div>
+        }
+        <div class="modal-footer">
+          <div></div>
+          <div class="footer-btns">
+            <button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button>
+            <button type="submit" class="btn-premium">{{ editingId() ? 'Guardar Cambios' : 'Agregar Barbero' }}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+}

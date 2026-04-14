@@ -4,36 +4,59 @@
     <p>La precisión de hoy define el éxito de mañana.</p>
   </header>
 
-  <div class="stats-grid">
-    @for (stat of stats(); track stat.label) {
-      <div class="glass-card stat-card">
-        <div class="stat-icon">{{ stat.icon }}</div>
-        <div class="stat-info">
-          <span class="label">{{ stat.label }}</span>
-          <span class="value">{{ stat.value }}</span>
-          <span class="trend" [class.positive]="stat.trend.startsWith('+')">
-            {{ stat.trend }} vs mes pasado
-          </span>
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando tu dashboard...</p>
+    </div>
+  }
+
+  @if (!loading()) {
+    <div class="stats-grid">
+      @for (stat of stats(); track stat.label) {
+        <div class="glass-card stat-card">
+          <div class="stat-icon">{{ stat.icon }}</div>
+          <div class="stat-info">
+            <span class="label">{{ stat.label }}</span>
+            <span class="value">{{ stat.value }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="main-sections">
+      <div class="glass-card upcoming-appointments">
+        <h3>Próximas Citas</h3>
+        @if (proximasCitas().length === 0) {
+          <div class="placeholder-content">
+            <p>No hay citas próximas para mostrar.</p>
+          </div>
+        } @else {
+          <div class="citas-list">
+            @for (cita of proximasCitas(); track cita.id) {
+              <div class="cita-item">
+                <div class="cita-time">{{ formatDate(cita.fecha_hora_inicio) }}</div>
+                <div class="cita-detail">
+                  <span class="cita-client">{{ cita.cliente_nombre }}</span>
+                  <span class="cita-barber">💈 {{ cita.empleado?.nombre || 'Sin asignar' }}</span>
+                </div>
+                <span class="badge" [ngClass]="getEstadoClass(cita.estado)">{{ cita.estado }}</span>
+              </div>
+            }
+          </div>
+        }
+        <button class="btn-see-all" (click)="navigateTo('/dashboard/appointments')">Ver todas las citas →</button>
+      </div>
+      
+      <div class="glass-card quick-actions">
+        <h3>Acciones Rápidas</h3>
+        <div class="actions-grid">
+          <button class="btn-action" (click)="navigateTo('/dashboard/appointments')">📅 Gestionar Citas</button>
+          <button class="btn-action" (click)="navigateTo('/dashboard/barbers')">💈 Ver Barberos</button>
+          <button class="btn-action" (click)="navigateTo('/dashboard/services')">✂️ Ver Servicios</button>
+          <button class="btn-action" (click)="navigateTo('/dashboard/settings')">⚙️ Configuración</button>
         </div>
       </div>
-    }
-  </div>
-
-  <div class="main-sections">
-    <div class="glass-card upcoming-appointments">
-      <h3>Próximas Citas</h3>
-      <div class="placeholder-content">
-        <p>No hay citas próximas para mostrar.</p>
-      </div>
     </div>
-    
-    <div class="glass-card quick-actions">
-      <h3>Acciones Rápidas</h3>
-      <div class="actions-grid">
-        <button class="btn-action">Nueva Cita</button>
-        <button class="btn-action">Agregar Servicio</button>
-        <button class="btn-action">Ver Reportes</button>
-      </div>
-    </div>
-  </div>
+  }
 </div>

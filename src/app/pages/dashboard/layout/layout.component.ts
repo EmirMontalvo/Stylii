@@ -2,12 +2,12 @@ import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SupabaseService } from '../../../services/supabase.service';
-import { LucideAngularModule, LayoutDashboard, Calendar, Users, Scissors, Settings, LogOut, Menu } from 'lucide-angular';
+import { LucideIconComponent, LayoutDashboard, Calendar, Users, Scissors, Settings, LogOut, Menu } from '../../../shared/lucide-icon.component';
 
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, LucideIconComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })

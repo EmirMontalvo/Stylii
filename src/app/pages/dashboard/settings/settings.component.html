@@ -1,0 +1,96 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h1 class="premium-title"><span class="brand-text">Configuración</span></h1>
+      <p class="subtitle">Administra tu negocio y perfil</p>
+    </div>
+  </div>
+
+  @if (message()) {
+    <div class="toast" [class.toast-success]="messageType() === 'success'" [class.toast-error]="messageType() === 'error'">
+      {{ message() }}
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando configuración...</p>
+    </div>
+  }
+
+  @if (!loading()) {
+    <div class="settings-grid">
+
+      <!-- Perfil -->
+      <div class="glass-card settings-section">
+        <div class="section-header">
+          <span class="section-icon">👤</span>
+          <h3>Tu Perfil</h3>
+        </div>
+        <form (submit)="saveProfile()" class="settings-form">
+          <div class="input-group">
+            <label>Nombre Completo</label>
+            <input type="text" [(ngModel)]="profile.nombre_completo" name="nombre" placeholder="Tu nombre">
+          </div>
+          <div class="input-group">
+            <label>Email</label>
+            <input type="email" [(ngModel)]="profile.email" name="email" placeholder="tu@email.com">
+          </div>
+          <div class="input-group">
+            <label>Rol</label>
+            <input type="text" [value]="getRolLabel(profile.rol)" disabled class="disabled-input">
+          </div>
+          <button type="submit" class="btn-premium btn-block" [disabled]="saving()">
+            {{ saving() ? 'Guardando...' : 'Guardar Perfil' }}
+          </button>
+        </form>
+      </div>
+
+      <!-- Negocio -->
+      <div class="glass-card settings-section">
+        <div class="section-header">
+          <span class="section-icon">🏢</span>
+          <h3>Tu Negocio</h3>
+        </div>
+        <form (submit)="saveNegocio()" class="settings-form">
+          <div class="input-group">
+            <label>Nombre del Negocio</label>
+            <input type="text" [(ngModel)]="negocio.nombre" name="negocio_nombre" placeholder="Nombre de tu empresa">
+          </div>
+          <button type="submit" class="btn-premium btn-block" [disabled]="saving()">
+            {{ saving() ? 'Guardando...' : 'Guardar Negocio' }}
+          </button>
+        </form>
+      </div>
+
+      <!-- Sucursal -->
+      <div class="glass-card settings-section full-width">
+        <div class="section-header">
+          <span class="section-icon">📍</span>
+          <h3>Sucursal Principal</h3>
+        </div>
+        <form (submit)="saveSucursal()" class="settings-form">
+          <div class="form-row">
+            <div class="input-group">
+              <label>Nombre de la Sucursal</label>
+              <input type="text" [(ngModel)]="sucursal.nombre" name="suc_nombre" placeholder="Ej. Sucursal Centro">
+            </div>
+            <div class="input-group">
+              <label>Teléfono</label>
+              <input type="tel" [(ngModel)]="sucursal.telefono" name="suc_tel" placeholder="555-123-4567">
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Dirección</label>
+            <input type="text" [(ngModel)]="sucursal.direccion" name="suc_dir" placeholder="Calle, Número, Colonia, Ciudad">
+          </div>
+          <button type="submit" class="btn-premium btn-block" [disabled]="saving()">
+            {{ saving() ? 'Guardando...' : 'Guardar Sucursal' }}
+          </button>
+        </form>
+      </div>
+
+    </div>
+  }
+</div>

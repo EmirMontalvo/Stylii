@@ -1,104 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Outfit:wght@300;600;800&display=swap');
-
-// --- TOKENS DE DISEÑO STYLII ---
-:root {
-  // Paleta de Colores STYLII
-  --bg-deep: #050a14;           // Fondo más azulado/oscuro
-  --bg-card: rgba(13, 71, 161, 0.05);
-  --primary-blue: #0D47A1;      // Principal (Profundo)
-  --accent-blue: #2962FF;       // Acento (Vibrante)
-  --accent-glow: rgba(41, 98, 255, 0.3);
-  --text-main: #f0f4f8;
-  --text-muted: #8091a1;
-  --glass-border: rgba(41, 98, 255, 0.15);
-  --glass-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
-  
-  // Tipografía
-  --font-main: 'Inter', sans-serif;
-  --font-title: 'Outfit', sans-serif;
-  
-  // Transiciones
-  --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-// Estilos Globales
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: var(--bg-deep);
-  color: var(--text-main);
-  font-family: var(--font-main);
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-  overflow-x: hidden;
-  
-  background: radial-gradient(circle at top right, #0D47A1 0%, #050a14 100%);
-}
-
-h1, h2, h3, h4, .premium-title {
-  font-family: var(--font-title);
-  letter-spacing: -0.02em;
-}
-
-// UTILIDADES GLASSMORFISM
-.glass-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px; // Un poco más "afilado" para transmitir precisión
-  box-shadow: var(--glass-shadow);
-  transition: var(--transition-smooth);
-  
-  &:hover {
-    border-color: var(--accent-blue);
-    background: rgba(41, 98, 255, 0.05);
-    transform: translateY(-2px);
-  }
-}
-
-.brand-text {
-  color: var(--accent-blue);
-  background: linear-gradient(to right, #2962FF, #82B1FF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.btn-premium {
-  background: var(--accent-blue);
-  color: #fff;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  font-family: inherit;
-  transition: var(--transition-smooth);
-  
-  &:hover {
-    background: #1a50e6;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px var(--accent-glow);
-  }
-
-  &:disabled {
-    background: var(--text-muted);
-    cursor: not-allowed;
-    transform: none;
-  }
-}
-
-// ============================================================
-// ESTILOS COMPARTIDOS DEL DASHBOARD
-// ============================================================
+// === ESTILOS COMPARTIDOS PARA PÁGINAS DE DASHBOARD ===
+// Este archivo contiene las clases base reutilizadas en appointments, barbers, services, settings
 
 .page-container {
   display: flex;
@@ -117,6 +18,7 @@ h1, h2, h3, h4, .premium-title {
   .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
 }
 
+// Filtros
 .filters-bar {
   display: flex;
   gap: 8px;
@@ -145,6 +47,7 @@ h1, h2, h3, h4, .premium-title {
   }
 }
 
+// Estado de carga
 .loading-state {
   display: flex;
   flex-direction: column;
@@ -166,6 +69,7 @@ h1, h2, h3, h4, .premium-title {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
+// Estado vacío
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -181,6 +85,7 @@ h1, h2, h3, h4, .premium-title {
   p { color: var(--text-muted); font-size: 0.9rem; }
 }
 
+// Grid de tarjetas
 .items-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -219,7 +124,7 @@ h1, h2, h3, h4, .premium-title {
 .btn-cancel { background: rgba(255, 193, 7, 0.2); color: #ffc107; &:hover { background: #ffc107; color: #000; } }
 .btn-delete { background: rgba(244, 67, 54, 0.15); color: #ef5350; &:hover { background: #f44336; color: #fff; } }
 
-// Modal
+// ============ MODAL ============
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -370,4 +275,3 @@ h1, h2, h3, h4, .premium-title {
   transition: var(--transition-smooth);
   &:hover { color: #fff; border-color: #fff; }
 }
-

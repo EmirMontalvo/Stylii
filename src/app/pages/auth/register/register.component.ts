@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { SupabaseService } from '../../../services/supabase.service';
-import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
+import { LucideIconComponent, Eye, EyeOff } from '../../../shared/lucide-icon.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, RouterModule, LucideIconComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })

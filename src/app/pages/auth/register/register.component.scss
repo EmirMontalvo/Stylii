@@ -1,4 +1,4 @@
-@import '../login/login.component.scss';
+@use '../login/login.component.scss' as login;
 
 .register-container {
   width: 100%;
